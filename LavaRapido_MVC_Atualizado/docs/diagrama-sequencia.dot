@@ -1,0 +1,17 @@
+digraph G { graph [rankdir=TB, bgcolor="white", pad=0.25, nodesep=0.35, ranksep=0.35]; node [shape=box, style="rounded,filled", fillcolor="#F5F7FB", color="#52657A", fontname="Arial", fontsize=10]; edge [color="#52657A", fontname="Arial", fontsize=9, arrowsize=0.7];
+ U [label="Usuário"]; V [label="AgendamentoView"]; C [label="AgendamentoController"]; S [label="AgendamentoService"]; M [label="Agendamento"]; B [label="Banco"];
+ U -> V [label="Informa cliente, serviço, data e hora; clica Agendar"];
+ V -> C [label="Evento / dados do formulário"];
+ C -> S [label="agendar(cliente, tipo, dataHora)"];
+ S -> S [label="Valida dados e calcula fim = início + duração"];
+ S -> B [label="Consulta agendamentos ativos"];
+ B -> S [label="Agenda atual"];
+ S -> M [label="Verifica sobreposição de intervalos"];
+ M -> S [label="Intervalo livre ou ocupado"];
+ S -> M [label="Cria objeto com preço e duração copiados"];
+ S -> B [label="salvar()"];
+ B -> S [label="Confirma gravação"];
+ S -> C [label="Retorna agendamento"];
+ C -> V [label="Limpa formulário e atualiza tabela"];
+ V -> U [label="Exibe agenda atualizada"];
+}

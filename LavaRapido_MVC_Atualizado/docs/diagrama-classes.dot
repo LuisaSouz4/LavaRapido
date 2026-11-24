@@ -1,0 +1,17 @@
+digraph G { graph [rankdir=TB, bgcolor="white", pad=0.25, nodesep=0.45, ranksep=0.65]; node [shape=record, style="rounded,filled", fillcolor="#F5F7FB", color="#52657A", fontname="Arial", fontsize=10]; edge [color="#52657A", fontname="Arial", fontsize=9, arrowsize=0.7];
+ Cliente [label="{Cliente| - id: long\l- nome: String\l- cpf: String\l- telefone: String\l- email: String\l- placaVeiculo: String\l}"];
+ TipoServico [label="{TipoServico| - id: long\l- nome: String\l- descricao: String\l- preco: BigDecimal\l- duracaoMinutos: int\l}"];
+ Agendamento [label="{Agendamento| - id: long\l- dataHora: LocalDateTime\l- preco: BigDecimal\l- duracaoMinutos: int\l- status: StatusAgendamento\l| + getFim(): LocalDateTime\l+ sobrepoe(inicio, fim): boolean\l+ isAtivo(): boolean\l}"];
+ Status [label="{StatusAgendamento| AGENDADO\l CONCLUIDO\l CANCELADO\l}"];
+ ClienteService [label="{ClienteService| + cadastrar(...)\l+ editar(...)\l+ excluir(...)\l+ listar()\l}"];
+ TipoServicoService [label="{TipoServicoService| + cadastrar(...)\l+ editar(...)\l+ excluir(...)\l+ listar()\l}"];
+ AgendamentoService [label="{AgendamentoService| + agendar(...)\l+ editar(...)\l+ cancelar(...)\l+ concluir(...)\l+ listarPorDia(...)\l+ listarPorSemana(...)\l}"];
+ Banco [label="{Banco| + dados()\l+ salvar()\l}"];
+ Cliente -> Agendamento [dir=back, arrowtail=none, label="1     0..*"];
+ TipoServico -> Agendamento [dir=back, arrowtail=none, label="1     0..*"];
+ Agendamento -> Status [label="status"];
+ ClienteService -> Cliente [style=dashed,label="gerencia"];
+ TipoServicoService -> TipoServico [style=dashed,label="gerencia"];
+ AgendamentoService -> Agendamento [style=dashed,label="gerencia"];
+ ClienteService -> Banco; TipoServicoService -> Banco; AgendamentoService -> Banco;
+}

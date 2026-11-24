@@ -1,0 +1,56 @@
+classDiagram
+direction TB
+class Cliente {
+  -long id
+  -String nome
+  -String cpf
+  -String telefone
+  -String email
+  -String placaVeiculo
+}
+class TipoServico {
+  -long id
+  -String nome
+  -String descricao
+  -BigDecimal preco
+  -int duracaoMinutos
+}
+class Agendamento {
+  -long id
+  -LocalDateTime dataHora
+  -BigDecimal preco
+  -int duracaoMinutos
+  -StatusAgendamento status
+  +getFim() LocalDateTime
+  +isAtivo() boolean
+  +sobrepoe(inicio, fim) boolean
+}
+class StatusAgendamento {
+  <<enumeration>>
+  AGENDADO
+  CONCLUIDO
+  CANCELADO
+}
+class ClienteService
+class TipoServicoService
+class AgendamentoService {
+  +agendar(cliente, tipo, dataHora) Agendamento
+  +editar(id, ...) Agendamento
+  +cancelar(id) void
+  +concluir(id) void
+  +listarPorDia(dia) List
+  +listarPorSemana(dia) List
+}
+class Banco
+class Validador
+Cliente "1" <-- "0..*" Agendamento : cliente
+TipoServico "1" <-- "0..*" Agendamento : tipoServico
+Agendamento --> StatusAgendamento : status
+ClienteService ..> Cliente : gerencia
+TipoServicoService ..> TipoServico : gerencia
+AgendamentoService ..> Agendamento : gerencia
+ClienteService ..> Validador : usa
+ClienteService --> Banco
+TipoServicoService --> Banco
+AgendamentoService --> Banco
+note for Agendamento "Preço e duração são copiados no momento do agendamento."

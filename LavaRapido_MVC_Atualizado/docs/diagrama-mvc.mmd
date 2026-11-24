@@ -1,0 +1,24 @@
+flowchart TB
+U([Usuário])
+subgraph V["Pacote view"]
+  direction LR
+  MV[MainView] ~~~ CV[ClienteView] ~~~ TV[TipoServicoView] ~~~ AV[AgendamentoView]
+end
+subgraph C["Pacote controller"]
+  direction LR
+  CC[ClienteController] ~~~ TC[TipoServicoController] ~~~ AC[AgendamentoController]
+end
+subgraph S["Pacote service"]
+  direction LR
+  CS[ClienteService] ~~~ TS[TipoServicoService] ~~~ AS[AgendamentoService] ~~~ VA[Validador] ~~~ BD[Banco]
+end
+subgraph M["Pacote model"]
+  direction LR
+  MC[Cliente] ~~~ MT[TipoServico] ~~~ MA[Agendamento] ~~~ ST[StatusAgendamento]
+end
+F[(Arquivo lavarapido.dat)]
+U -->|eventos| V
+V <-->|aciona / atualiza| C
+C -->|chama| S
+S -->|manipula| M
+S -->|salva e carrega| F

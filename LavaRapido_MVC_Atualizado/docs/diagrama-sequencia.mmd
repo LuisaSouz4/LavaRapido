@@ -1,0 +1,28 @@
+sequenceDiagram
+autonumber
+actor U as Usuário
+participant V as AgendamentoView
+participant C as AgendamentoController
+participant S as AgendamentoService
+participant M as Agendamento
+participant B as Banco
+U->>V: informa cliente, serviço, data e hora
+U->>V: clica em Agendar
+V->>C: evento do botão
+C->>S: agendar(cliente, tipo, dataHora)
+Note over S: valida campos, data e duração
+S->>S: calcula fim = início + duração
+S->>B: consulta agendamentos ativos
+B-->>S: agenda atual
+S->>M: verifica sobreposição dos intervalos
+alt intervalo ocupado
+  S-->>C: ValidacaoException
+  C->>V: mostrarErro(mensagem)
+  V-->>U: exibe aviso
+else intervalo livre
+  S->>M: cria agendamento com preço e duração copiados
+  S->>B: salvar()
+  S-->>C: agendamento criado
+  C->>V: limpar formulário e atualizar tabela
+  V-->>U: agenda atualizada
+end
